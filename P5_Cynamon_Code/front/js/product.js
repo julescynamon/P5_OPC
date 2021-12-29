@@ -9,45 +9,41 @@ const fetchProduct = async () => {
     await fetch(`http://localhost:3000/api/products/${id}`)
         .then((reponse) => reponse.json())
         .then((promise) => {
-            productData = promise;
+        productData = promise;
         })
-      // mise en place d'une fonction en cas d'erreur d'affichage
+        // mise en place d'une fonction en cas d'erreur d'affichage
         .catch((error) => {
-            let seeItems = document.querySelector(".item");
-            seeItems.innerHTML =
-            "Impossible d'afficher nos produits, erreur requete API. Veuillez réessayer dans quelques instants <br>Si le problème persiste, contactez-nous.";
-            seeItems.style.textAlign = "center";
-            seeItems.style.padding = "30vh 0";
+        let seeItems = document.querySelector(".item");
+        seeItems.innerHTML = "Impossible d'afficher nos produits, erreur requete API. Veuillez réessayer dans quelques instants <br>Si le problème persiste, contactez-nous.";
+        seeItems.style.textAlign = "center";
+        seeItems.style.padding = "30vh 0";
         });
 };
 
-const displayProduct = async() => {
+const displayProduct = async () => {
     await fetchProduct();
     // Mise en place de mon produit dans le DOM
     document.querySelector(".item__img").innerHTML = `
-    <img src=${productData.imageUrl} alt="${productData.altTxt}">
-    `;
+        <img src=${productData.imageUrl} alt="${productData.altTxt}">
+        `;
     document.getElementById("title").innerHTML = `${productData.name}`;
     document.getElementById("price").innerHTML = `${productData.price}`;
     document.getElementById("description").innerHTML = `${productData.description}`;
-    
 
     // Implementation de la selection de couleur
 
     let select = document.getElementById("colors");
-    
+
     productData.colors.forEach((color) => {
         let option = document.createElement("option");
         option.innerHTML = `${color}`;
         option.value = `${color}`;
 
         select.appendChild(option);
-
     });
 
     addBasket(productData);
-
-} 
+};
 
 displayProduct();
 
@@ -55,10 +51,8 @@ displayProduct();
 
 const addBasket = () => {
 
-    button.addEventListener("click" , () =>{
-      // tableau du local storage
-        let arrayProduct = JSON.parse(localStorage.getItem("product"));
-
+    button.addEventListener("click", () => {
+            
         // recuperation de la couleur
         const idcolor = document.getElementById("colors");
         const colorChoice = idcolor.value;
@@ -67,28 +61,63 @@ const addBasket = () => {
         const idQuantity = document.getElementById("quantity");
         const quantityChoice = idQuantity.value;
 
-        // Création du produits qui sera mis dans le panier
-        let choiceOfProduct = {
-            idProduct: id,
-            colorProduct: colorChoice,
-            quantityProduct: quantityChoice,
-            nameProduct: productData.name,
-            piceProduct: productData.price,
-            descriptionProduct: productData.description,
-            imgProduct: productData.imageUrl,
-            altImgProduct: productData.altTxt,
-        };
+        if (quantityChoice > 0 && quantityChoice <= 100) {
+            // Création du produits qui sera mis dans le panier
+            let choiceOfProduct = {
+                idProduct: id,
+                colorProduct: colorChoice,
+                quantityProduct: Number(quantityChoice),
+                nameProduct: productData.name,
+                priceProduct: productData.price,
+                descriptionProduct: productData.description,
+                imgProduct: productData.imageUrl,
+                altImgProduct: productData.altTxt,
+            };
 
-        if (arrayProduct == null && quantityChoice > 0 && quantityChoice <= 100) {
-            arrayProduct = [];
-            arrayProduct.push(choiceOfProduct);
-            //   console.log(arrayProduct)
-            localStorage.setItem("product", JSON.stringify(arrayProduct));
+            // tableau du local storage
+            let arrayProduct = JSON.parse(localStorage.getItem("product"));
+
+            //fenêtre pop-up
+            const popupConfirmation = () => {
+                if (
+                window.confirm(`Votre commande de ${quantityChoice} ${productData.name} ${colorChoice} est ajoutée au panier ! Pour consulter votre panier, cliquez sur OK`
+                )) {
+                window.location.href = "cart.html";
+                }
+            };
+
+            // importation dans le localStorage
+            if (arrayProduct == null) {
+                // si le panier est vide
+                arrayProduct = [];
+                arrayProduct.push(choiceOfProduct);
+                localStorage.setItem("product",JSON.stringify(arrayProduct));
+                popupConfirmation();
+            }
+            // si le panier contient déjà 1 article
+            if (arrayProduct) {
+                
+                const resultFind = arrayProduct.find((e) => e.idProduct === id && e.productColor === colorChoice);
+
+                if (resultFind) {
+
+                    let newQuantity = parseInt(choiceOfProduct.quantityProduct) + parseInt(resultFind.quantityProduct);
+                    resultFind.quantityProduct = newQuantity;
+                    localStorage.setItem("product", JSON.stringify(arrayProduct));
+                    popupConfirmation();
+
+                } else {
+
+                    // si le produit clicker n'est pas dans le panier
+                    arrayProduct.push(choiceOfProduct);
+                    localStorage.setItem("product",JSON.stringify(arrayProduct));
+                    popupConfirmation();
+
+                } 
+                
+
+            }
             
         }
-
-
-    })
-
-}
-
+    });
+};
