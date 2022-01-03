@@ -29,9 +29,7 @@ const displayProduct = async () => {
             `;
     document.getElementById("title").innerHTML = `${productData.name}`;
     document.getElementById("price").innerHTML = `${productData.price}`;
-    document.getElementById(
-        "description"
-    ).innerHTML = `${productData.description}`;
+    document.getElementById( "description" ).innerHTML = `${productData.description}`;
 
     // Implementation de la selection de couleur
 
