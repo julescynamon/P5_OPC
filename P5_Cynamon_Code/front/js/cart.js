@@ -12,8 +12,8 @@ const emptyCart = document.getElementById("cart__items");
         let cardBasket = []
 
         for (i = 0; i < arrayProduct.length; i++) {
-            cardBasket = cardBasket + `
-            <!--  <article class="cart__item" data-id="${arrayProduct[i].idProduct}" data-color="${arrayProduct[i].colorProduct}">
+            cardBasket = cardBasket +`
+            <ar article class="cart__item" data-id="${arrayProduct[i].idProduct}" data-color="${arrayProduct[i].colorProduct}">
                     <div class="cart__item__img">
                     <img src="${arrayProduct[i].imgProduct}" alt="${arrayProduct[i].altImgProduct}">
                     </div>
@@ -25,8 +25,8 @@ const emptyCart = document.getElementById("cart__items");
                     </div>
                     <div class="cart__item__content__settings">
                         <div class="cart__item__content__settings__quantity">
-                        <p>Qté : ${arrayProduct[i].quantityProduct}</p>
-                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+                        <p>Qté : </p>
+                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${arrayProduct[i].quantityProduct}">
                         </div>
                         <div class="cart__item__content__settings__delete">
                         <p class="deleteItem">Supprimer</p>
