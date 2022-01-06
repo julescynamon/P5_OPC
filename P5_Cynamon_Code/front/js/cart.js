@@ -111,11 +111,11 @@ const emptyCart = document.getElementById("cart__items");
         function totalItem (){
 
             // recuperation du total de quantity
-            let elmentsQuantity = document.querySelector(".itemQuantity");
+            let elmentsQuantity = document.getElementsByClassName("itemQuantity");
             let Lengthelments = elmentsQuantity.length;
             totalQuantity = 0;
 
-            for (let l = 0; l < Lengthelments.length; ++l) {
+            for (let l = 0; l < Lengthelments; ++l) {
 
                 totalQuantity += elmentsQuantity[l].valueAsNumber;
 
@@ -124,6 +124,18 @@ const emptyCart = document.getElementById("cart__items");
             let itemTotalQuantity = document.getElementById("totalQuantity");
             itemTotalQuantity.innerHTML = totalQuantity;
             
+            // recuperation du prix total
+            totalPrice = 0
+
+            for (let m = 0; m < Lengthelments; m++) {
+
+                totalPrice += ( elmentsQuantity[m].valueAsNumber * arrayProduct[m].priceProduct  );
+
+            }
+
+            let totalPriceProduct = document.getElementById("totalPrice");
+            totalPriceProduct.innerHTML = totalPrice;
 
         }
-totalItem();
+
+        totalItem();
