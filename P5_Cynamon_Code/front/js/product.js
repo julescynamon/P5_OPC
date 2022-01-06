@@ -59,14 +59,14 @@ const addBasket = () => {
 
     // recuperation de la quantité
     const idQuantity = document.getElementById("quantity");
-    let quantityChoice = idQuantity.value;
+    let quantityChoice = idQuantity.valueAsNumber;
 
     if (quantityChoice > 0 && quantityChoice <= 100) {
       // Création du produits qui sera mis dans le panier
         let choiceOfProduct = {
             idProduct: id,
             colorProduct: colorChoice,
-            quantityProduct: Number(quantityChoice),
+            quantityProduct: quantityChoice,
             nameProduct: productData.name,
             priceProduct: productData.price,
             descriptionProduct: productData.description,
@@ -95,7 +95,7 @@ const addBasket = () => {
             //Si le produit commandé est déjà dans le panier
             if (resultFind) {
             let newQuantite =
-                parseInt(choiceOfProduct.quantityProduct) + parseInt(resultFind.quantityProduct);
+                choiceOfProduct.quantityProduct + resultFind.quantityProduct;
                 resultFind.quantityProduct = newQuantite;
                 localStorage.setItem("product", JSON.stringify(arrayProduct));
                 console.table(arrayProduct);
