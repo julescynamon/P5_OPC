@@ -95,18 +95,17 @@ const addBasket = () => {
             //Si le produit commandé est déjà dans le panier
             if (resultFind) {
             let newQuantite =
-                parseInt(choiceOfProduct.quantityProduct) +
-                parseInt(resultFind.quantityProduct);
-            resultFind.quantityProduct = newQuantite;
-            localStorage.setItem("product", JSON.stringify(arrayProduct));
-            console.table(arrayProduct);
-            popupConfirmation();
+                parseInt(choiceOfProduct.quantityProduct) + parseInt(resultFind.quantityProduct);
+                resultFind.quantityProduct = newQuantite;
+                localStorage.setItem("product", JSON.stringify(arrayProduct));
+                console.table(arrayProduct);
+                popupConfirmation();
             //Si le produit commandé n'est pas dans le panier
             } else {
-            arrayProduct.push(choiceOfProduct);
-            localStorage.setItem("product", JSON.stringify(arrayProduct));
-            console.table(arrayProduct);
-            popupConfirmation();
+                arrayProduct.push(choiceOfProduct);
+                localStorage.setItem("product", JSON.stringify(arrayProduct));
+                console.table(arrayProduct);
+                popupConfirmation();
             }
             //Si le panier est vide
         } else {
