@@ -62,8 +62,8 @@ const emptyCart = document.getElementById("cart__items");
 
                     localStorage.setItem("product", JSON.stringify(arrayProduct));
 
-                    location.reload();
-
+                    
+                    totalItem();
 
                 }) ) 
 
@@ -82,18 +82,21 @@ const emptyCart = document.getElementById("cart__items");
             for (let k = 0; k < deleteP.length; k++) {
                 
                 deleteP[k].addEventListener("click", (e => {
-
                     e.preventDefault();
 
                     // recuperation de l'element a supprimer selon son id et sa couleur
                     let deleteId = arrayProduct[k].idProduct;
                     let deleteColor = arrayProduct[k].colorProduct;
 
-                    arrayProduct = arrayProduct.filter(el => el.idProduct != deleteId || el.colorProduct != deleteColor);
+                    arrayProduct = arrayProduct.filter(
+                        (el) =>
+                        el.idProduct != deleteId || el.colorProduct != deleteColor
+                    );
 
-                    localStorage.setItem( "product", JSON.stringify(arrayProduct));
+                    localStorage.setItem("product", JSON.stringify(arrayProduct));
 
-                    alert("Votre produit a bien été supprimer du panier !")
+                    alert("Votre produit a bien été supprimer du panier !");
+
                     location.reload();
 
                 }))
@@ -137,3 +140,8 @@ const emptyCart = document.getElementById("cart__items");
         }
 
         totalItem();
+
+
+        // Mise en place du formulaire 
+
+        

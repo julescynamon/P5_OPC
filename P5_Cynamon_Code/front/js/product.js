@@ -61,7 +61,7 @@ const addBasket = () => {
     const idQuantity = document.getElementById("quantity");
     let quantityChoice = idQuantity.valueAsNumber;
 
-    if (quantityChoice > 0 && quantityChoice <= 100) {
+    if (quantityChoice > 0 && quantityChoice <= 100 && colorChoice != 0 && colorChoice != '') {
       // Création du produits qui sera mis dans le panier
         let choiceOfProduct = {
             idProduct: id,
