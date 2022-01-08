@@ -1,6 +1,10 @@
 let arrayProduct = JSON.parse(localStorage.getItem("product"));
 console.table(arrayProduct);
 const emptyCart = document.getElementById("cart__items");
+const orderButton = document.getElementById("order");
+const form = document.querySelector(".cart__order__form");
+
+
 
     // si le panier est vide
     if (arrayProduct == null) {
@@ -142,6 +146,181 @@ const emptyCart = document.getElementById("cart__items");
         totalItem();
 
 
-        // Mise en place du formulaire 
+        //-------------------- Mise en place du formulaire -----------------------
 
+        orderButton.addEventListener("click", (e) => submitForm(e));
+
+        // fonction pour envoyer le formulaire dans le local storage au click du boutton
+
+        function submitForm(e) {
+            
+            e.preventDefault();
+
+            if (arrayProduct === null) {
+                alert("Veuillez choisir un produit à commander s'il vous plait !");
+                return;
+            }
+
+            if (invalidInput()){
+                return;
+            };
+
+            if (checkFirstName()){
+                return;
+            }
+
+            if (checkLastName()){
+                return;
+            }
+
+            if (checkAdress()) {
+                return;
+            }
+            if (checkCity()) {
+                return;
+            }
+            if (checkEmail()) {
+                return;
+            }
+
+            const body = requestTheBody();
+
+            fetch("http://localhost:3000/api/products/order", {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/JSON"
+                }
+                })
+                .then((reponse) => reponse.json())
+                .then((data) => {
+
+                    console.log(data);
+                    localStorage.clear();
+                    localStorage.setItem("orderId", data.orderId);
+                    document.location.href = "confirmation.html";
+                    
+                })
+                .catch((error) => {
+                    alert("Probleme avec fetch" + error.message);
+                })
+        }
+
+        // Fonction pour creer le tableau d'infos clients a envoyer dans le localStorage
+
+        function requestTheBody() {
+
+            //Récupération des coordonnées du formulaire client
+            let Name = document.getElementById("firstName");
+            let LastName = document.getElementById("lastName");
+            let Adress = document.getElementById("address");
+            let City = document.getElementById("city");
+            let Mail = document.getElementById("email");
+
+            //Construction d'un array depuis le local storage
+            let totalIdProducts = [];
+
+            for (let n = 0; n < arrayProduct.length; n++) {
+                totalIdProducts.push(arrayProduct[n].idProduct);
+            }
+
+            const body = {
+                contact: {
+                    firstName: Name.value,
+                    lastName: LastName.value,
+                    address: Adress.value,
+                    city: City.value,
+                    email: Mail.value,
+                },
+                products: totalIdProducts,
+            };
+
+            return body;
+        }
+
+        // Fonction  au cas ou l'utilisateur ne rentre pas tous les champs de saisie
+
+        function invalidInput() {
+            
+            const input = form.querySelectorAll("input");
+
+            input.forEach((input) => {
+                if (input.value === "") {
+                    alert("Veuillez remplir tous les champs de saisie !")
+                    return true;
+                }
+                return false;
+            })
+
+        }
+
+        // Fonction qui vas controler à l'aide des regex si l'entree du prenom est bonne
+
+        function checkFirstName() {
+            
+            const firstName = document.getElementById("firstName").value;
+            const regexFirstName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+            
+            if (regexFirstName.test(firstName) === false) {
+                document.getElementById("firstNameErrorMsg").innerHTML = "Votre prénom ne doit pas comporter de chiffre";
+                return true;
+            } 
+            return false;
+        }
+
+        // Fonction qui vas controler à l'aide des regex si l'entree du nom est bonne
+
+        function checkLastName() {
+            const lastName = document.getElementById("lastName").value;
+            const regexLastName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+
+            if (regexLastName.test(lastName) === false) {
+                document.getElementById("lastNameErrorMsg").innerHTML =
+                    "Votre nom ne doit pas comporter de chiffre";
+                return true;
+            }
+            return false;
+        }
+
+        // Fonction qui vas controler à l'aide des regex si l'entree de l'adresse est bonne
+
+
+        function checkAdress() {
+            const address = document.getElementById("address").value;
+            const regexAddress = /^[a-zA-Z0-9\s,.'-]{3,}$/; 
+
+            if (regexAddress.test(address) === false) {
+                document.getElementById("addressErrorMsg").innerHTML =
+                    "Votre adresse doit être valide";
+                return true;
+            }
+            return false;
+        }
+
+        // Fonction qui vas controler à l'aide des regex si l'entree de la ville est bonne
+
+        function checkCity() {
+            const city = document.getElementById("city").value;
+            const regexCity = /^[a-zA-Z0-9\s,.'-]{3,}$/;
+
+            if (regexCity.test(city) === false) {
+                document.getElementById("cityErrorMsg").innerHTML =
+                "Votre ville doit être valide";
+                return true;
+            }
+            return false;
+        }
+
+        // Fonction qui vas controler à l'aide des regex si l'entree de l'email est bonne
         
+        function checkEmail() {
+            const email = document.getElementById("email").value;
+            const regexEmail = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
+            
+            if (regexEmail.test(email) === false) {
+                document.getElementById("emailErrorMsg").innerHTML = 
+                "Votre email doit être valide";
+                return true;
+            }
+            return false;
+        }
