@@ -5,45 +5,48 @@ const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
 
 
-
-    // si le panier est vide
-    if (arrayProduct == null) {
+    function createBasket() {
+      // si le panier est vide
+        if (arrayProduct == null) {
             const createEmptyCart = `<p>Votre panier est vide</p>`;
             emptyCart.innerHTML = createEmptyCart;
-    } else {
-      // si le panir est plein
-        let cardBasket = '';
+        } else {
+            // si le panir est plein
+            let cardBasket = "";
 
-        for (i = 0; i < arrayProduct.length; i++) {
+            for (i = 0; i < arrayProduct.length; i++) {
             cardBasket += `
-                <article class="cart__item" data-id="${arrayProduct[i].idProduct}" data-color="${arrayProduct[i].colorProduct}">
-                        <div class="cart__item__img">
-                        <img src="${arrayProduct[i].imgProduct}" alt="${arrayProduct[i].altImgProduct}">
-                        </div>
-                        <div class="cart__item__content">
-                        <div class="cart__item__content__description">
-                            <h2>${arrayProduct[i].nameProduct}</h2>
-                            <p>${arrayProduct[i].colorProduct}</p>
-                            <p>${arrayProduct[i].priceProduct} €</p>
-                        </div>
-                        <div class="cart__item__content__settings">
-                            <div class="cart__item__content__settings__quantity">
-                            <p>Qté : </p>
-                            <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${arrayProduct[i].quantityProduct}">
+                    <article class="cart__item" data-id="${arrayProduct[i].idProduct}" data-color="${arrayProduct[i].colorProduct}">
+                            <div class="cart__item__img">
+                            <img src="${arrayProduct[i].imgProduct}" alt="${arrayProduct[i].altImgProduct}">
                             </div>
-                            <div class="cart__item__content__settings__delete">
-                            <p class="deleteItem">Supprimer</p>
+                            <div class="cart__item__content">
+                            <div class="cart__item__content__description">
+                                <h2>${arrayProduct[i].nameProduct}</h2>
+                                <p>${arrayProduct[i].colorProduct}</p>
+                                <p>${arrayProduct[i].priceProduct} €</p>
                             </div>
-                        </div>
-                        </div>
-                    </article>
-                `;
-        }
+                            <div class="cart__item__content__settings">
+                                <div class="cart__item__content__settings__quantity">
+                                <p>Qté : </p>
+                                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${arrayProduct[i].quantityProduct}">
+                                </div>
+                                <div class="cart__item__content__settings__delete">
+                                <p class="deleteItem">Supprimer</p>
+                                </div>
+                            </div>
+                            </div>
+                        </article>
+                    `;
+            }
 
-        // om injecte notre panier dans le html
-        emptyCart.innerHTML = cardBasket;
+            // om injecte notre panier dans le html
+            emptyCart.innerHTML = cardBasket;
+        }
     }
     
+    createBasket();
+
         // function pour modifier la quantite
 
         function modifQuantity () {
@@ -160,8 +163,8 @@ const form = document.querySelector(".cart__order__form");
                 alert("Veuillez choisir un produit à commander s'il vous plait !");
                 return;
             }
-
-            if (invalidInput()){
+            
+            if (invalidInput()) {
                 return;
             };
 
@@ -243,7 +246,7 @@ const form = document.querySelector(".cart__order__form");
             const input = form.querySelectorAll("input");
 
             input.forEach((input) => {
-                if (input.value === "") {
+                if (input.value == "") {
                     alert("Veuillez remplir tous les champs de saisie !")
                     return true;
                 }
@@ -251,6 +254,7 @@ const form = document.querySelector(".cart__order__form");
             })
 
         }
+
 
         // Fonction qui vas controler à l'aide des regex si l'entree du prenom est bonne
 
