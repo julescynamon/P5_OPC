@@ -192,14 +192,12 @@ const form = document.querySelector(".cart__order__form");
                     "Content-Type": "application/JSON"
                 }
                 })
-                .then((reponse) => reponse.json())
+                .then((response) => response.json())
                 .then((data) => {
-
-                    console.log(data);
-                    localStorage.clear();
+                    
                     localStorage.setItem("orderId", data.orderId);
                     document.location.href = "confirmation.html";
-                    
+
                 })
                 .catch((error) => {
                     alert("Probleme avec fetch" + error.message);
