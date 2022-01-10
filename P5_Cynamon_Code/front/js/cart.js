@@ -164,9 +164,9 @@ const form = document.querySelector(".cart__order__form");
                 return;
             }
             
-            if (invalidInput()) {
-                return;
-            };
+            // if (invalidInput()) {
+            //     return;
+            // };
 
             if (checkFirstName()){
                 return;
@@ -241,19 +241,19 @@ const form = document.querySelector(".cart__order__form");
 
         // Fonction  au cas ou l'utilisateur ne rentre pas tous les champs de saisie
 
-        function invalidInput() {
+        // function invalidInput() {
             
-            const input = form.querySelectorAll("input");
+        //     const input = form.querySelectorAll("input");
 
-            input.forEach((input) => {
-                if (input.value == "") {
-                    alert("Veuillez remplir tous les champs de saisie !")
-                    return true;
-                }
-                return false;
-            })
+        //     input.forEach((input) => {
+        //         if (input.value == "") {
+        //             alert("Veuillez remplir tous les champs de saisie !")
+        //             return true;
+        //         }
+        //         return false;
+        //     })
 
-        }
+        // }
 
 
         // Fonction qui vas controler à l'aide des regex si l'entree du prenom est bonne
@@ -264,7 +264,7 @@ const form = document.querySelector(".cart__order__form");
             const regexFirstName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
             
             if (regexFirstName.test(firstName) === false) {
-                document.getElementById("firstNameErrorMsg").innerHTML = "Votre prénom ne doit pas comporter de chiffre";
+                document.getElementById("firstNameErrorMsg").innerHTML = "Votre prénom n'est pas valide";
                 return true;
             } 
             return false;
@@ -278,7 +278,7 @@ const form = document.querySelector(".cart__order__form");
 
             if (regexLastName.test(lastName) === false) {
                 document.getElementById("lastNameErrorMsg").innerHTML =
-                    "Votre nom ne doit pas comporter de chiffre";
+                    "Votre nom n'est pas valide";
                 return true;
             }
             return false;
