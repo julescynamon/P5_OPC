@@ -164,22 +164,23 @@ const form = document.querySelector(".cart__order__form");
                 return;
             }
             
-            // if (invalidInput()) {
-            //     return;
-            // };
+            if (invalidInput()) {
+                alert ("veuillez remplir tous les champs")
+                return;
+            };
 
-            if (checkFirstName()){
+            if (checkName("firstName", "firstNameErrorMsg", "votre prenom n'est pas valide")) {
                 return;
             }
 
-            if (checkLastName()){
+            if (checkName("lastName", "lastNameErrorMsg", "Votre nom n'est pas valide")){
                 return;
             }
 
-            if (checkAdress()) {
+            if (checkAdressCity( "address", "addressErrorMsg", "Votre adresse doit être valide")) {
                 return;
             }
-            if (checkCity()) {
+            if ( checkAdressCity( "city", "cityErrorMsg", "Votre ville doit être valide")) {
                 return;
             }
             if (checkEmail()) {
@@ -241,77 +242,45 @@ const form = document.querySelector(".cart__order__form");
 
         // Fonction  au cas ou l'utilisateur ne rentre pas tous les champs de saisie
 
-        // function invalidInput() {
+        function invalidInput() {
             
-        //     const input = form.querySelectorAll("input");
+            const input = Array.from(form.querySelectorAll("input"));
 
-        //     input.forEach((input) => {
-        //         if (input.value == "") {
-        //             alert("Veuillez remplir tous les champs de saisie !")
-        //             return true;
-        //         }
-        //         return false;
-        //     })
-
-        // }
+        return input.find ((input) => {
+            return input.value == ""
+        })
+    }
 
 
-        // Fonction qui vas controler à l'aide des regex si l'entree du prenom est bonne
+        // Fonction qui vas controler à l'aide des regex si l'entree du prenom et du nom est bonne
 
-        function checkFirstName() {
+        function checkName(inputSelector, errorSelector, message) {
             
-            const firstName = document.getElementById("firstName").value;
-            const regexFirstName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
-            
-            if (regexFirstName.test(firstName) === false) {
-                document.getElementById("firstNameErrorMsg").innerHTML = "Votre prénom n'est pas valide";
+            const inputValue = document.getElementById(inputSelector).value;
+            const regexName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+            // j'ai chercher ce regex 
+            if (regexName.test(inputValue) === false) {
+                document.getElementById(errorSelector).innerHTML = message;
                 return true;
             } 
             return false;
         }
 
-        // Fonction qui vas controler à l'aide des regex si l'entree du nom est bonne
 
-        function checkLastName() {
-            const lastName = document.getElementById("lastName").value;
-            const regexLastName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){}|~<>;:[\]]{2,}$/;
+        // Fonction qui vas controler à l'aide des regex si l'entree de l'adresse et de la ville est bonne
 
-            if (regexLastName.test(lastName) === false) {
-                document.getElementById("lastNameErrorMsg").innerHTML =
-                    "Votre nom n'est pas valide";
+
+        function checkAdressCity(inputSelectorAdress, errorAdressSelector, adressCityMessage) {
+            const addressOfLife = document.getElementById(inputSelectorAdress).value;
+            const regexAddressOfLife = /^[a-zA-Z0-9\s,.'-]{3,}$/; 
+
+            if (regexAddressOfLife.test(addressOfLife) === false) {
+                document.getElementById(errorAdressSelector).innerHTML = adressCityMessage;
                 return true;
             }
             return false;
         }
 
-        // Fonction qui vas controler à l'aide des regex si l'entree de l'adresse est bonne
-
-
-        function checkAdress() {
-            const address = document.getElementById("address").value;
-            const regexAddress = /^[a-zA-Z0-9\s,.'-]{3,}$/; 
-
-            if (regexAddress.test(address) === false) {
-                document.getElementById("addressErrorMsg").innerHTML =
-                    "Votre adresse doit être valide";
-                return true;
-            }
-            return false;
-        }
-
-        // Fonction qui vas controler à l'aide des regex si l'entree de la ville est bonne
-
-        function checkCity() {
-            const city = document.getElementById("city").value;
-            const regexCity = /^[a-zA-Z0-9\s,.'-]{3,}$/;
-
-            if (regexCity.test(city) === false) {
-                document.getElementById("cityErrorMsg").innerHTML =
-                "Votre ville doit être valide";
-                return true;
-            }
-            return false;
-        }
 
         // Fonction qui vas controler à l'aide des regex si l'entree de l'email est bonne
         
