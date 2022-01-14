@@ -1,4 +1,8 @@
-// Fonction pour recuperer l'id de la commande et l'afficher
+/**
+ * Description
+ * Fonction pour recuperer l'id de la commande et l'afficher
+ * @returns {any}
+ */
 
 function displayOrderId(){
 

@@ -1,7 +1,10 @@
 let canapData = [];
 
-// Récupération des articles de l'API
-
+/**
+ * Description
+ * Récupération des articles de l'API
+ * @returns {promise}
+ */
 const fetchCanap = async () => {
         await fetch("http://localhost:3000/api/products")
         .then((reponse) => reponse.json())
@@ -18,8 +21,12 @@ const fetchCanap = async () => {
         });
 };
 
-// Répartition des données de l'API dans le DOM
 
+/**
+ * Description
+ * Affichage des donnees de l'API dans le dom
+ * @returns {HTMLElements}
+ */
 const canapDisplay = async () => {
 
     await fetchCanap();

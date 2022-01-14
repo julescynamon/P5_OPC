@@ -5,6 +5,11 @@ const button = document.getElementById("addToCart");
 
 let productData = [];
 
+/**
+ * Description
+ * appel des donnees du produits dans l'API et mis en place dans un tableau
+ * @returns {promise}
+ */
 const fetchProduct = async () => {
     await fetch(`http://localhost:3000/api/products/${id}`)
         .then((reponse) => reponse.json())
@@ -21,6 +26,11 @@ const fetchProduct = async () => {
         });
 };
 
+/**
+ * Description
+ * Mis en place des donnees du produits choisie dans l'API dans le DOM
+ * @returns {string}
+ */
 const displayProduct = async () => {
     await fetchProduct();
     // Mise en place de mon produit dans le DOM
@@ -48,8 +58,11 @@ const displayProduct = async () => {
 
 displayProduct();
 
-// Fonction ajout au panier et envoie dans le local storage
-
+/**
+ * Description
+ * Fonction ajout au panier et envoie dans le local storage
+ * @returns {Array.<String|Object>}
+ */
 const addBasket = () => {
 
     button.addEventListener("click", () => {
@@ -62,7 +75,7 @@ const addBasket = () => {
     let quantityChoice = idQuantity.valueAsNumber;
 
     if (quantityChoice > 0 && quantityChoice <= 100 && colorChoice != 0 && colorChoice != '') {
-      // Création du produits qui sera mis dans le panier
+        // Création du produits qui sera mis dans le panier
         let choiceOfProduct = {
             idProduct: id,
             colorProduct: colorChoice,
@@ -88,24 +101,31 @@ const addBasket = () => {
             }
         };
 
-        //Importation dans le local storage
-        //Si le panier comporte déjà au moins 1 article
+        /**
+     * Description
+     * Importation dans le local storage
+     * Si le panier comporte déjà au moins 1 article
+     * @param {Array.<String|Object>} arrayProduct
+     * @returns {Array}       
+    */
         if (arrayProduct) {
-            const resultFind = arrayProduct.find( (el) => el.idProduct === id && el.colorProduct === colorChoice );
+            const resultFind = arrayProduct.find(
+            (el) => el.idProduct === id && el.colorProduct === colorChoice
+            );
             //Si le produit commandé est déjà dans le panier
             if (resultFind) {
             let newQuantite =
                 choiceOfProduct.quantityProduct + resultFind.quantityProduct;
-                resultFind.quantityProduct = newQuantite;
-                localStorage.setItem("product", JSON.stringify(arrayProduct));
-                console.table(arrayProduct);
-                popupConfirmation();
+            resultFind.quantityProduct = newQuantite;
+            localStorage.setItem("product", JSON.stringify(arrayProduct));
+            console.table(arrayProduct);
+            popupConfirmation();
             //Si le produit commandé n'est pas dans le panier
             } else {
-                arrayProduct.push(choiceOfProduct);
-                localStorage.setItem("product", JSON.stringify(arrayProduct));
-                console.table(arrayProduct);
-                popupConfirmation();
+            arrayProduct.push(choiceOfProduct);
+            localStorage.setItem("product", JSON.stringify(arrayProduct));
+            console.table(arrayProduct);
+            popupConfirmation();
             }
             //Si le panier est vide
         } else {

@@ -5,6 +5,11 @@ const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
 
 
+/**
+ * Description
+ * creation du panier
+ * @returns {Array.<String>}
+*/    
     function createBasket() {
       // si le panier est vide
         if (arrayProduct == null) {
@@ -47,9 +52,14 @@ const form = document.querySelector(".cart__order__form");
     
     createBasket();
 
-        // function pour modifier la quantite
+        
 
-        function modifQuantity () {
+/**
+ * Description
+ * function pour modifier la quantite
+ * @returns {HTMLElements}
+ */        
+    function modifQuantity () {
 
             let modif = document.querySelectorAll( ".itemQuantity" );
 
@@ -78,10 +88,13 @@ const form = document.querySelector(".cart__order__form");
 
         }
         
-        modifQuantity();
+        modifQuantity(); 
 
-        // Fonction pour supprimer un produit
-
+/**
+ * Description
+ * Fonction pour supprimer un produit
+ * @returns {any}
+ */         
         function deleteProduct () {
             
             let deleteP = document.querySelectorAll(".deleteItem");
@@ -113,9 +126,13 @@ const form = document.querySelector(".cart__order__form");
         }
 
         deleteProduct();
+        
 
-        // Fonction pour recuperer la quantite total et le prix total
-
+/**
+ * Description
+ * Fonction pour recuperer la quantite total et le prix total
+ * @returns {any}
+ */         
         function totalItem (){
 
             // recuperation du total de quantity
@@ -153,8 +170,14 @@ const form = document.querySelector(".cart__order__form");
 
         orderButton.addEventListener("click", (e) => submitForm(e));
 
-        // fonction pour envoyer le formulaire dans le local storage au click du boutton
+        
 
+/**
+ * Description
+ * fonction pour envoyer le formulaire dans le local storage au click du boutton
+ * @param {HTMLElement} e
+ * @returns {response}
+ */         
         function submitForm(e) {
             
             e.preventDefault();
@@ -208,8 +231,13 @@ const form = document.querySelector(".cart__order__form");
                 })
         }
 
-        // Fonction pour creer le tableau d'infos clients a envoyer dans le localStorage
+        
 
+/**
+ * Description
+ * Fonction pour creer le tableau d'infos clients a envoyer dans le localStorage
+ * @returns {Array.<String|Object>}
+ */         
         function requestTheBody() {
 
             //Récupération des coordonnées du formulaire client
@@ -239,10 +267,14 @@ const form = document.querySelector(".cart__order__form");
 
             return body;
         }
+        
 
-        // Fonction  au cas ou l'utilisateur ne rentre pas tous les champs de saisie
-
-        function invalidInput() {
+    /**
+     * Description
+     * Fonction  au cas ou l'utilisateur ne rentre pas tous les champs de saisie
+     * @returns {sring}
+     */         
+    function invalidInput() {
             
             const input = Array.from(form.querySelectorAll("input"));
 
@@ -250,10 +282,16 @@ const form = document.querySelector(".cart__order__form");
             return input.value == ""
         })
     }
+        
 
-
-        // Fonction qui vas controler à l'aide des regex si l'entree du prenom et du nom est bonne
-
+    /**
+     * Description
+     * Fonction qui vas controler à l'aide des regex si l'entree du prenom et du nom est bonne
+     * @param {string} inputSelector
+     * @param {string} errorSelector
+     * @param {string} message
+     * @returns {string}
+     */         
         function checkName(inputSelector, errorSelector, message) {
             
             const inputValue = document.getElementById(inputSelector).value;
@@ -266,10 +304,14 @@ const form = document.querySelector(".cart__order__form");
             return false;
         }
 
-
-        // Fonction qui vas controler à l'aide des regex si l'entree de l'adresse et de la ville est bonne
-
-
+    /**
+     * Description
+     * Fonction qui vas controler à l'aide des regex si l'entree de l'adresse et de la ville est bonne
+     * @param {string} inputSelectorAdress
+     * @param {string} errorAdressSelector
+     * @param {string} adressCityMessage
+     * @returns {string}
+     */         
         function checkAdressCity(inputSelectorAdress, errorAdressSelector, adressCityMessage) {
             const addressOfLife = document.getElementById(inputSelectorAdress).value;
             const regexAddressOfLife = /^[a-zA-Z0-9\s,.'-]{3,}$/; 
@@ -280,10 +322,12 @@ const form = document.querySelector(".cart__order__form");
             }
             return false;
         }
-
-
-        // Fonction qui vas controler à l'aide des regex si l'entree de l'email est bonne
         
+/**
+ * Description
+ * Fonction qui vas controler à l'aide des regex si l'entree de l'email est bonne
+ * @returns {string}        
+ */ 
         function checkEmail() {
             const email = document.getElementById("email").value;
             const regexEmail = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
