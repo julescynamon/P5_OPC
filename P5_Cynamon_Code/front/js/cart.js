@@ -1,65 +1,111 @@
-let arrayProduct = JSON.parse(localStorage.getItem("product"));
+let arrayProduct = JSON.parse(localStorage.getItem("product")) || [];
 console.table(arrayProduct);
+
 const emptyCart = document.getElementById("cart__items");
 const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
 
+const fetchCanap = () => fetch("http://localhost:3000/api/products").then((reponse) => reponse.json());
+
+/**
+ * Description
+ * fonction pour récupérer les données dans l'API
+ * @param {object} products
+ * @param {object} cart
+ * @returns {any}
+ */
+// function getAPICartProduct (products , cart ){
+//     return cart.map((cartItem) => {
+
+//         const product = products.find(p => p._id === cartItem.idProduct);
+        
+//         return Object.assign({}, cartItem, product);
+
+//     })
+// }
 
 /**
  * Description
  * creation du panier
+ * @param {object[]} products
  * @returns {Array.<String>}
 */    
-    function createBasket() {
-      // si le panier est vide
-        if (arrayProduct == null) {
+    function renderBasket(products) {
+        // si le panier est vide
+        // (n'est pas dans le localstorage ou si c'est un tableau vide)
+        if (arrayProduct == 0) {
             const createEmptyCart = `<p>Votre panier est vide</p>`;
             emptyCart.innerHTML = createEmptyCart;
         } else {
             // si le panir est plein
             let cardBasket = "";
-
+            // on parcours chaque éléments présent dans notre panier
             for (i = 0; i < arrayProduct.length; i++) {
-            cardBasket += `
-                    <article class="cart__item" data-id="${arrayProduct[i].idProduct}" data-color="${arrayProduct[i].colorProduct}">
-                            <div class="cart__item__img">
-                            <img src="${arrayProduct[i].imgProduct}" alt="${arrayProduct[i].altImgProduct}">
-                            </div>
-                            <div class="cart__item__content">
-                            <div class="cart__item__content__description">
-                                <h2>${arrayProduct[i].nameProduct}</h2>
-                                <p>${arrayProduct[i].colorProduct}</p>
-                                <p>${arrayProduct[i].priceProduct} €</p>
-                            </div>
-                            <div class="cart__item__content__settings">
-                                <div class="cart__item__content__settings__quantity">
-                                <p>Qté : </p>
-                                <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${arrayProduct[i].quantityProduct}">
-                                </div>
-                                <div class="cart__item__content__settings__delete">
-                                <p class="deleteItem">Supprimer</p>
-                                </div>
-                            </div>
-                            </div>
-                        </article>
-                    `;
-            }
+            // on recherche ses informations dans les produits de l'API (pour le compléter avec le price, image, ...)
+            const product = products.find(
+                (p) => p._id === arrayProduct[i].idProduct);
+            // si le produit existe dans l'API on l'affiche
+            if (product) {
+                // on crée un objet avec les informations saisies par l'utilisateur depuis le localstorage
+                // et on y ajoute les informations du produit depuis l'API
+                const item = Object.assign({}, arrayProduct[i], product);
 
-            // om injecte notre panier dans le html
-            emptyCart.innerHTML = cardBasket;
+                cardBasket += `
+                        <article class="cart__item" data-id="${item.idProduct}" data-color="${item.colorProduct}">
+                                <div class="cart__item__img">
+                                <img src="${item.imageUrl}" alt="${item.altTxt}">
+                                </div>
+                                <div class="cart__item__content">
+                                <div class="cart__item__content__description">
+                                    <h2>${item.name}</h2>
+                                    <p>${item.colorProduct}</p>
+                                    <p>${item.price} €</p>
+                                </div>
+                                <div class="cart__item__content__settings">
+                                    <div class="cart__item__content__settings__quantity">
+                                    <p>Qté : </p>
+                                    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${item.quantityProduct}">
+                                    </div>
+                                    <div class="cart__item__content__settings__delete">
+                                    <p class="deleteItem">Supprimer</p>
+                                    </div>
+                                </div>
+                                </div>
+                            </article>
+                        `;
+            }
+        }
+
+        // om injecte notre panier dans le html
+        emptyCart.innerHTML = cardBasket;
         }
     }
     
-    createBasket();
 
-        
+    async function createBasket() {
+        // on récupère les informations depuis l'API
+        const products = await fetchCanap();
+
+        // on fait le rendu du panier
+        renderBasket(products);
+        modifQuantity(products);
+        deleteProduct();
+
+        totalItem(products);
+
+        //-------------------- Mise en place du formulaire -----------------------
+
+        orderButton.addEventListener("click", (e) => submitForm(e));
+    }
+    
+    createBasket();    
 
 /**
  * Description
  * function pour modifier la quantite
  * @returns {HTMLElements}
  */        
-    function modifQuantity () {
+    function modifQuantity (products) {
 
             let modif = document.querySelectorAll( ".itemQuantity" );
 
@@ -80,15 +126,13 @@ const form = document.querySelector(".cart__order__form");
                     localStorage.setItem("product", JSON.stringify(arrayProduct));
 
                     
-                    totalItem();
+                    totalItem(products);
 
                 }) ) 
 
             }
 
-        }
-        
-        modifQuantity(); 
+        } 
 
 /**
  * Description
@@ -124,16 +168,15 @@ const form = document.querySelector(".cart__order__form");
             }
 
         }
-
-        deleteProduct();
         
 
 /**
  * Description
  * Fonction pour recuperer la quantite total et le prix total
+ * @param {object[]} products Produits depuis l'API
  * @returns {any}
  */         
-        function totalItem (){
+        function totalItem (products){
 
             // recuperation du total de quantity
             let elmentsQuantity = document.getElementsByClassName("itemQuantity");
@@ -153,9 +196,17 @@ const form = document.querySelector(".cart__order__form");
             totalPrice = 0
 
             for (let m = 0; m < Lengthelments; m++) {
+                // on recherche les informations du produit depuis le retour API
+                const product = products.find(
+                    (p) => p._id === arrayProduct[m].idProduct
+                );
 
-                totalPrice += ( elmentsQuantity[m].valueAsNumber * arrayProduct[m].priceProduct  );
-
+                if (product) {
+                    // on crée un objet avec les informations saisies par l'utilisateur depuis le localstorage
+                    // et on y ajoute les informations du produit depuis l'API
+                    const item = Object.assign({}, arrayProduct[i], product);
+                    totalPrice += elmentsQuantity[m].valueAsNumber * item.price;
+                }
             }
 
             let totalPriceProduct = document.getElementById("totalPrice");
@@ -163,14 +214,6 @@ const form = document.querySelector(".cart__order__form");
 
         }
 
-        totalItem();
-
-
-        //-------------------- Mise en place du formulaire -----------------------
-
-        orderButton.addEventListener("click", (e) => submitForm(e));
-
-        
 
 /**
  * Description

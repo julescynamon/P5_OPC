@@ -80,11 +80,6 @@ const addBasket = () => {
             idProduct: id,
             colorProduct: colorChoice,
             quantityProduct: quantityChoice,
-            nameProduct: productData.name,
-            priceProduct: productData.price,
-            descriptionProduct: productData.description,
-            imgProduct: productData.imageUrl,
-            altImgProduct: productData.altTxt,
         };
 
         // tableau du local storage
@@ -106,7 +101,7 @@ const addBasket = () => {
      * Importation dans le local storage
      * Si le panier comporte déjà au moins 1 article
      * @param {Array.<String|Object>} arrayProduct
-     * @returns {Array}       
+     * @returns {Array/}       
     */
         if (arrayProduct) {
             const resultFind = arrayProduct.find(
