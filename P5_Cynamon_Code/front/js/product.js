@@ -10,7 +10,7 @@ let productData = [];
  * appel des donnees du produits dans l'API et mis en place dans un tableau
  * @returns {promise}
  */
-const fetchProduct = async () => {
+async function fetchProduct () {
     await fetch(`http://localhost:3000/api/products/${id}`)
         .then((reponse) => reponse.json())
         .then((promise) => {
@@ -31,7 +31,7 @@ const fetchProduct = async () => {
  * Mis en place des donnees du produits choisie dans l'API dans le DOM
  * @returns {string}
  */
-const displayProduct = async () => {
+async function displayProduct () {
     await fetchProduct();
     // Mise en place de mon produit dans le DOM
     document.querySelector(".item__img").innerHTML = `
@@ -63,7 +63,7 @@ displayProduct();
  * Fonction ajout au panier et envoie dans le local storage
  * @returns {Array.<String|Object>}
  */
-const addBasket = () => {
+function addBasket () {
 
     button.addEventListener("click", () => {
     // recuperation de la couleur
@@ -75,7 +75,7 @@ const addBasket = () => {
     let quantityChoice = idQuantity.valueAsNumber;
 
     if (quantityChoice > 0 && quantityChoice <= 100 && colorChoice != 0 && colorChoice != '') {
-        // Création du produits qui sera mis dans le panier
+        // Création du produits qui sera mis dans le panier en ne mettant qu'une partie accessible dans le localStorage
         let choiceOfProduct = {
             idProduct: id,
             colorProduct: colorChoice,
@@ -86,7 +86,7 @@ const addBasket = () => {
         let arrayProduct = JSON.parse(localStorage.getItem("product"));
 
         //fenêtre pop-up
-        const popupConfirmation = () => {
+        function popupConfirmation () {
             if (
             window.confirm(
                 `Votre commande de ${quantityChoice} ${productData.name} ${colorChoice} est ajoutée au panier ! Pour consulter votre panier, cliquez sur OK`

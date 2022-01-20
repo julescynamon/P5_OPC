@@ -5,7 +5,7 @@ let canapData = [];
  * Récupération des articles de l'API
  * @returns {promise}
  */
-const fetchCanap = async () => {
+async function fetchCanap ()  {
         await fetch("http://localhost:3000/api/products")
         .then((reponse) => reponse.json())
         .then((promise) => {
@@ -27,7 +27,7 @@ const fetchCanap = async () => {
  * Affichage des donnees de l'API dans le dom
  * @returns {HTMLElements}
  */
-const canapDisplay = async () => {
+async function canapDisplay () {
 
     await fetchCanap();
     

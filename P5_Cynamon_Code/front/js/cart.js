@@ -5,6 +5,12 @@ const emptyCart = document.getElementById("cart__items");
 const orderButton = document.getElementById("order");
 const form = document.querySelector(".cart__order__form");
 
+
+/**
+ * Description
+ * fonction pour récupérer les articles de l'API
+ * @returns {promise}
+ */
 const fetchCanap = () => fetch("http://localhost:3000/api/products").then((reponse) => reponse.json());
 
 /**
@@ -93,8 +99,8 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
 
         totalItem(products);
 
-        //-------------------- Mise en place du formulaire -----------------------
-
+        
+        // mise en place du bouton d'envoie du formulaire
         orderButton.addEventListener("click", (e) => submitForm(e));
     }
     
@@ -214,6 +220,7 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
 
         }
 
+                //-------------------- Mise en place du formulaire -----------------------
 
 /**
  * Description
@@ -274,7 +281,7 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
                 })
         }
 
-        
+
 
 /**
  * Description
