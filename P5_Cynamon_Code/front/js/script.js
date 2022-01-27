@@ -32,18 +32,39 @@ async function canapDisplay () {
     await fetchCanap();
     
     // Insertion des données de l'API dans le DOM
-    document.getElementById("items").innerHTML = canapData.map(
-        (canap) =>
-                `
-                    <a href="./product.html?id=${canap._id}" class="link-Product">
-                    <article>
-                        <img src="${canap.imageUrl}" alt="${canap.altTxt}">
-                        <h3 class="productName">${canap.name}</h3>
-                        <p class="productDescription">${canap.description}</p>
-                    </article>
-                    </a>
-                `
-    ).join("");
+    const products = canapData;
+
+    for (let product in products){
+
+        // Insertion de l'élément "a"
+        let productLink = document.createElement("a");
+        document.querySelector(".items").appendChild(productLink);
+        productLink.href = `product.html?id=${canapData[product]._id}`;
+
+        // Insertion de l'élément "article"
+        let productArticle = document.createElement("article");
+        productLink.appendChild(productArticle);
+
+        // Insertion de l'image
+        let productImg = document.createElement("img");
+        productArticle.appendChild(productImg);
+        productImg.src = canapData[product].imageUrl;
+        productImg.alt = canapData[product].altTxt;
+
+        // Insertion du titre "h3"
+        let productName = document.createElement("h3");
+        productArticle.appendChild(productName);
+        productName.classList.add("productName");
+        productName.innerHTML = canapData[product].name;
+
+        // Insertion de la description "p"
+        let productDescription = document.createElement("p");
+        productArticle.appendChild(productDescription);
+        productDescription.classList.add("productName");
+        productDescription.innerHTML = canapData[product].description;
+
+    }
+
 };
 
 // Affichage des donnees de l'API sur le navigateur

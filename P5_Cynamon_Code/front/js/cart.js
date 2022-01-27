@@ -13,22 +13,6 @@ const form = document.querySelector(".cart__order__form");
  */
 const fetchCanap = () => fetch("http://localhost:3000/api/products").then((reponse) => reponse.json());
 
-/**
- * Description
- * fonction pour récupérer les données dans l'API
- * @param {object} products
- * @param {object} cart
- * @returns {any}
- */
-// function getAPICartProduct (products , cart ){
-//     return cart.map((cartItem) => {
-
-//         const product = products.find(p => p._id === cartItem.idProduct);
-        
-//         return Object.assign({}, cartItem, product);
-
-//     })
-// }
 
 /**
  * Description
@@ -48,15 +32,16 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
             // on parcours chaque éléments présent dans notre panier
             for (i = 0; i < arrayProduct.length; i++) {
             // on recherche ses informations dans les produits de l'API (pour le compléter avec le price, image, ...)
-            const product = products.find(
-                (p) => p._id === arrayProduct[i].idProduct);
+            const product = products.find( (p) => p._id === arrayProduct[i].idProduct );
             // si le produit existe dans l'API on l'affiche
             if (product) {
                 // on crée un objet avec les informations saisies par l'utilisateur depuis le localstorage
                 // et on y ajoute les informations du produit depuis l'API
+                
                 const item = Object.assign({}, arrayProduct[i], product);
 
-                cardBasket += `
+                cardBasket +=
+                        `
                         <article class="cart__item" data-id="${item.idProduct}" data-color="${item.colorProduct}">
                                 <div class="cart__item__img">
                                 <img src="${item.imageUrl}" alt="${item.altTxt}">
@@ -78,7 +63,8 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
                                 </div>
                                 </div>
                             </article>
-                        `;
+                        `
+                
             }
         }
 

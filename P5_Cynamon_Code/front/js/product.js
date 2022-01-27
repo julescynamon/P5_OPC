@@ -79,7 +79,7 @@ function addBasket () {
         let choiceOfProduct = {
             idProduct: id,
             colorProduct: colorChoice,
-            quantityProduct: quantityChoice,
+            quantityProduct: quantityChoice
         };
 
         // tableau du local storage
@@ -104,34 +104,44 @@ function addBasket () {
      * @returns {Array/}       
     */
         if (arrayProduct) {
-            const resultFind = arrayProduct.find(
-            (el) => el.idProduct === id && el.colorProduct === colorChoice
-            );
+            const resultFind = arrayProduct.find( (el) => el.idProduct === id && el.colorProduct === colorChoice );
+
             //Si le produit commandé est déjà dans le panier
-            if (resultFind) {
-            let newQuantite =
-                choiceOfProduct.quantityProduct + resultFind.quantityProduct;
-            resultFind.quantityProduct = newQuantite;
-            localStorage.setItem("product", JSON.stringify(arrayProduct));
-            console.table(arrayProduct);
-            popupConfirmation();
-            //Si le produit commandé n'est pas dans le panier
+            if (resultFind) { 
+
+                let newQuantite = choiceOfProduct.quantityProduct + resultFind.quantityProduct;
+                resultFind.quantityProduct = newQuantite;
+                localStorage.setItem("product", JSON.stringify(arrayProduct));
+                console.table(arrayProduct);
+                popupConfirmation();
+                //Si le produit commandé n'est pas dans le panier
+
             } else {
-            arrayProduct.push(choiceOfProduct);
-            localStorage.setItem("product", JSON.stringify(arrayProduct));
-            console.table(arrayProduct);
-            popupConfirmation();
+
+                arrayProduct.push(choiceOfProduct);
+                localStorage.setItem("product", JSON.stringify(arrayProduct));
+                console.table(arrayProduct);
+
+                popupConfirmation();
+
             }
+
             //Si le panier est vide
         } else {
+
             arrayProduct = [];
             arrayProduct.push(choiceOfProduct);
             localStorage.setItem("product", JSON.stringify(arrayProduct));
             console.table(arrayProduct);
+
             popupConfirmation();
+
         }
+
     } else{
+
             alert("Veuillez choisir une couleur et une quantité valide !")
+            
         }
     });
 };
