@@ -6,8 +6,10 @@
 
 function displayOrderId(){
 
-    const orderId = document.getElementById("orderId");
-    orderId.innerText = localStorage.getItem("orderId");
+    const orderElement = document.getElementById("orderId");
+    const url = new URL(document.location);
+    const orderId = url.searchParams.get('orderId');
+    orderElement.innerText = orderId;
     localStorage.clear();
 
 }

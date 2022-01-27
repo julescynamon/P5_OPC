@@ -259,8 +259,9 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
                 .then((response) => response.json())
                 .then((data) => {
                     
-                    localStorage.setItem("orderId", data.orderId);
-                    document.location.href = "confirmation.html";
+                    
+                    document.location.href = `confirmation.html?orderId=${data.orderId}`;
+                    
 
                 })
                 .catch((error) => {
