@@ -85,9 +85,7 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
 
         totalItem(products);
 
-        
-        // mise en place du bouton d'envoie du formulaire
-        orderButton.addEventListener("click", (e) => submitForm(e));
+
     }
     
     createBasket();    
@@ -208,6 +206,9 @@ const fetchCanap = () => fetch("http://localhost:3000/api/products").then((repon
 
                 //-------------------- Mise en place du formulaire -----------------------
 
+                        
+        // mise en place du bouton d'envoie du formulaire
+        orderButton.addEventListener("click", (e) => submitForm(e));
 /**
  * Description
  * fonction pour envoyer le formulaire dans le local storage au click du boutton
